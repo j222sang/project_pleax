@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- Sql에 있는 Data를 가져 오기 위해서 만들어놓은 기본 틀 -->
+	
+<mapper namespace="">
+	<!-- resultMap : DB Table 정의 내역과 객체 정의 내역에 있어 mismatch(부조화)가 있을 시 이를 연동, 
+		짝 지어주는 정보를 정의함 -->
+
+	<resultMap type=""	id=""
+		extends="">
+	
+			<id property="" column=""></id>
+		<result property="" column=""></result>
+	</resultMap>
+	<!-- -->
+	<select id="" resultMap=""> 
+	<![CDATA[
+	
+	]]>
+	</select>
+</mapper>

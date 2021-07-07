@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- Sql에 있는 Data를 가져 오기 위해서 만들어놓은 기본 틀 -->
+	
+<mapper namespace="www.dream.com.common.attachFile.persistence.AttachFileVOMapper">
+	<!-- resultMap : DB Table 정의 내역과 객체 정의 내역에 있어 mismatch(부조화)가 있을 시 이를 연동,짝 지어주는 정보를 정의함 -->
+	<resultMap type="www.dream.com.common.attachFile.model.AttachFileVO"	id="rmAttachFileVO">
+	
+		<id property="uuid" column="uuid"></id>
+		<result property="savedFolderPath" column="saved_folder_path"></result>
+		<result property="pureFileName" column="pure_file_name"></result>
+		<result property="multimediaType" column="multimedia_type"></result>
+	</resultMap>
+	
+	<!-- public int insert(@Param("postId") String postId, @Param("listAttachFile") List<AttachFileVO> listAttachFile); -->
+	<insert id="insert">
+		insert all
+		<foreach collection="listAttachFile" item="af" > <!--item=객체의 이름(변수명)-->
+			into s_attach_file(uuid, saved_folder_path, pure_file_name, multimedia_type)
+			     values(#{af.uuid}, #{af.savedFolderPath}, #{af.pureFileName}, #{af.multimediaType})
+			into sm_post_attach(post_id, uuid)
+			     values(#{postId}, #{af.uuid})
+		</foreach>	
+		select * from dual
+	</insert>
+	
+	<!-- public int delete(@Param("postId") String postId); -->
+	<delete id="delete">
+	{
+	call
+	 declare
+	   begin
+	 	  delete from s_attach_file 
+		   where uuid in (
+				 select uuid
+				   from sm_post_attach
+				  where post_id = #{postId}
+				  );
+	  delete from sm_post_attach where post_id = #{postId};
+	end
+	}
+	</delete>
+</mapper>

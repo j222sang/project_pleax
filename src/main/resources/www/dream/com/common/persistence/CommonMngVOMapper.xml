@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="www.dream.com.common.persistence.CommonMngVOMapper"> 
+<!-- 이곳은 Interface 명칭을 따라간다. -->
+	<resultMap type="www.dream.com.common.model.CommonMngVO"  id="CommonMngVOMap">
+	<!-- 이곳은 Model Package의 명칭을 따라간다, -->
+		<result property="registrationDate" column="reg_dt"></result>
+		<result property="updateDate" column="upt_dt"></result>
+		
+	</resultMap>
+</mapper>

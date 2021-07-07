@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.4.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="customAccessContorller" class="www.dream.com.party.control.PartyController"></bean>
+
+<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+</bean>
+
+<bean id="partyService" class="www.dream.com.party.service.PartyService">
+</bean>
+
+<security:http>
+	<security:form-login login-page="/party/customLogin" 
+	 authentication-success-handler-ref="customAccessContorller"/> 
+	<security:access-denied-handler ref="customAccessContorller"/>
+
+	<security:logout logout-url="/party/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID"/>
+
+	<security:remember-me data-source-ref="dsHikariCP" token-validity-seconds="1800"/>
+</security:http>
+
+<security:authentication-manager>
+	<security:authentication-provider user-service-ref="partyService">
+		<security:password-encoder ref="bcryptPasswordEncoder" />
+	</security:authentication-provider> 
+</security:authentication-manager>
+
+</beans>

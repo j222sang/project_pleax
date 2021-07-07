@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- Sql에 있는 Data를 가져 오기 위해서 만들어놓은 기본 틀 -->
+	
+<mapper namespace="www.dream.com.selectKey.persistence.MasterDetail">
+	<!-- resultMap : DB Table 정의 내역과 객체 정의 내역에 있어 mismatch(부조화)가 있을 시 이를 연동, 
+		짝 지어주는 정보를 정의함 -->
+		
+	<!-- JUnit Test에 정의한 함수를 만들어 준다. xml에다가.  -->
+	<!-- int findByName(String string, Date reg_dt); select 구문이라서 제일위로 보냈음  -->
+	<select id="findByName" resultType="int"> 
+	<![CDATA[
+	select id
+	  from s_master
+	 where name = #{string}
+	 	and reg_dt = #{reg_dt}
+	]]>
+	</select>
+
+	<!--void insertMaster(MasterVO newBie);  -->
+	<insert id="insertMaster">
+	insert into s_master(id, name, reg_dt)
+			values(seq_master.nextval, #{name}, #{reg_dt})
+	</insert>
+
+	<!-- 	void insertMasterBySelectKey(MasterVO newBie); --> 
+	<!-- 성능개선을 위한 selcetkey 쿼리문 정의 -->
+	<insert id="insertMasterBySelectKey">
+		<selectKey keyProperty="id" order="BEFORE" resultType="int">
+			select seq_master.nextval from dual 
+		</selectKey>
+		insert into s_master(id, name)
+			values(#{id}, #{name})
+	</insert>
+	<!-- ↑문제가 생기는데, 일단 해결 방법은 #{reg_dt} 이거 지워버리면 된다. 그리고 selectKey로 감싼다.-->
+	
+	<!-- void insertDetail(@Param("masterId") int idOfNew, @Param("detail") DetailVO addr);  -->
+	<insert id="insertDetail">
+	insert into s_detail(m_id, id, info)
+			values(#{masterId}, seq_master.nextval, #{detail.info})
+	</insert>
+	
+</mapper>
