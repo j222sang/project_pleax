@@ -88,9 +88,8 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 		int dto = partyService.IDDuplicateCheck(ID);
 		
 		if(dto > 0) {//결과 값이 있으면 아이디 존재	
-			return "-1";
+			return "1";
 		} else {		//없으면 아이디 존재 X
-			System.out.println("null");
 			return "0";
 		}
 	}
@@ -106,20 +105,17 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 			roleNames.add(authority.getAuthority());
 		});
 		
-		 if (roleNames.contains("manager")) {
+		if (roleNames.contains("manager")) {
 		 response.sendRedirect("/party/showCurUser"); return; 
 		 }
-		
 		if (roleNames.contains("admin")) {
 			response.sendRedirect("/post/listBySearch?boardId=1");
 			return;
 		}
-		
 		if (roleNames.contains("manager")) {
 			response.sendRedirect("/post/listBySearch?boardId=2");
 			return;
 		}
-		
 		response.sendRedirect("/post/listBySearch?boardId=3");
 	}
 	

@@ -12,7 +12,7 @@ CREATE SEQUENCE seq_party_id START WITH -990000000 MINVALUE -990000000;
 
 --party_type, description
 create table s_party_auth(
-	party_auth			char(10),
+	party_auth			varchar2(10),
 	description			varchar2(100)
 );
 

@@ -90,6 +90,15 @@
 		 where user_id = #{userId}
 	</update>
 	
+	<!-- public int IDDuplicateCheck(@Param("userId") String userId); -->
+	<select id="IDDuplicateCheck" resultType="int" >
+	<![CDATA[
+		select count (*)
+		  from s_party
+		 where user_id = #{userId}
+	]]>
+	</select>
+	
 	<!-- ################################### 연락처 관련 ##############################-->
 		<resultMap type="www.dream.com.party.model.ContactPointTypeVO" id="cpMap" >
 		<!-- 왼쪽은 java에서 오른쪽은 ddl로 정의한 속성을 짝지어준다 -->
@@ -116,14 +125,7 @@
 		select * from dual
 	</insert>
 	
-	<!-- public int IDDuplicateCheck(@Param("userId") String userId); -->
-	<select id="IDDuplicateCheck" resultType="int">
-	<![CDATA[
-		select count(*)
-		  from s_party
-		 where user_id = #{userId}
-	]]>
-	</select>
+	
 	
 	<!-- ################################### 사용자 권한 관련 ##############################-->
 	<resultMap type="www.dream.com.party.model.partyOfAuthVO" id="paMap" >
