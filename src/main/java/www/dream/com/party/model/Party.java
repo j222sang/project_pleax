@@ -10,6 +10,8 @@ import java.util.Date;
  */
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import www.dream.com.common.model.CommonMngVO;
@@ -30,19 +32,12 @@ public abstract class Party extends CommonMngVO implements IHashTagOpponent { //
 	@HashTarget 
 	@PrintTarget(order=250, caption="작성자")
 	private String 	name;	 // User의 사람 이름
+	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date 	birthDate;  // 생년월일
 	private boolean male;		// 성별
 	private boolean	enabled;	// 가입중, 탈퇴 시 false
+	private String descrim;		//사용자 or admin
 	
-	public Date getFormattedUpdateDate(Date birthDate) throws ParseException {
-		if (birthDate != null) {
-			String from = birthDate.getYear() + birthDate.getMonth() + birthDate.getDay() + "";
-			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date to = transFormat.parse(from);
-			return to;
-		}
-		return null;
-	}
 	@HashTarget
 	private List<ContactPoint> listContactPoint = new ArrayList<>();
 	// 12. 11번과 이어지는 1:N 관계의 속성을 정의하기 위한 list Master_Detail. ContactPoint.java에 있는 11번 주석읽어볼 것

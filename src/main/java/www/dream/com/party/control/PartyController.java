@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,9 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 	@Autowired // 10. Autowired @ 생성
 	private PartyService partyService; // 9. PartyClass와 이어줄거고
 	
+	@Autowired
+	private PasswordEncoder pwEncoder;
+	
 	@GetMapping(value="list") // 14. GetMapping @도 가져오고.
 	public void getList(Model model) { // 13.getList 함수 생성 , // 15. Model 이거 구글링해보고 
 		model.addAttribute("listParty", partyService.getList()); // 16. getlist를 불러오기위한 동작을 model에 담을것
@@ -47,10 +52,10 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 			model.addAttribute("logout", "로그 아웃 성공!");
 		}
 	}
-	
-	@GetMapping("customLogout")
-	public void processLogout() {
-	}
+//	
+//	@GetMapping("customLogout")
+//	public void processLogout() {
+//	}
 	
 	@PostMapping("customLogout")
 	public void processLogoutPost() {
@@ -63,12 +68,13 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 	@GetMapping("joinMember")
 	public void joinMember(Model model) {
 		model.addAttribute("listCPType", partyService.getCPTypeList());
-		
+		model.addAttribute("memberType", partyService.getMemberType());
 	}
 	
 	@PostMapping("joinMember")
-	public String joinMember(Member newBie) throws ParseException {
-		newBie.setBirthDate(newBie.getFormattedUpdateDate(newBie.getBirthDate()));
+	public String joinMember(Member newBie, @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthDate) {
+		//회원가입시 비밀번호 암호화
+		newBie.setUserPwd(pwEncoder.encode(newBie.getUserPwd()));
 		partyService.joinMember(newBie);
 		return "redirect:/";
 	}

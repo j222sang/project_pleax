@@ -11,17 +11,18 @@ drop   SEQUENCE seq_party_id;
 CREATE SEQUENCE seq_party_id START WITH -990000000 MINVALUE -990000000;
 
 --party_type, description
-create table s_party_type(
-	party_type			char(10),
+create table s_party_auth(
+	party_auth			char(10),
 	description			varchar2(100)
 );
 
-insert into s_party_type(party_type, description);
-	values('Admin', 관리자);
-insert into s_party_type(party_type, description);
-	values('Manager', 운영자);	
-insert into s_party_type(party_type, description);
-	values('User', 사용자);	
+insert into s_party_auth(party_auth, description)
+	values('Admin', '관리자');
+    
+insert into s_party_auth(party_auth, description)
+	values('User', '사용자');	
+	
+	
 	
 	--user_id, user_pwd, name, birth_dt, sex, enabled, reg_dt, upt_dt, descrim	
 	
@@ -94,9 +95,9 @@ create table f_contact_point (
 	contact_point_type	char(10),
 	info		varchar2(50),	--연락처 정보
 	reg_dt			timestamp			default sysdate not null,	--등록 시점
-	upt_dt			timestamp			default sysdate not null,	--수정 시점
-	primary key (user_id, contact_point_type),
-	CONSTRAINT fk_cp_party FOREIGN KEY (user_id) REFERENCES s_party(user_id) --참조할떄의 문법
+	upt_dt			timestamp			default sysdate not null,
+	primary key (user_id, contact_point_type)
+
 );
 
 insert into s_contact_point(user_id, contact_point_type, info)

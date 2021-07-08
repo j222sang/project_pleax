@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import www.dream.com.party.model.ContactPointTypeVO;
 import www.dream.com.party.model.Party;
+import www.dream.com.party.model.partyOfAuthVO;
 import www.dream.com.party.model.Member;
 
 /**
@@ -39,4 +40,7 @@ public interface PartyMapper { // 13. persistence package에 PartyMapper interfa
 	public List<ContactPointTypeVO> getCPTypeList();
 	
 	public void joinMember(@Param("party") Member member);
+	
+	/**	권한 처리 관련 영역	*/
+	public partyOfAuthVO getMemberType();
 }

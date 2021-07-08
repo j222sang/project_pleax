@@ -29,7 +29,7 @@
 			
 			<div class="form-group">
 				<label>생년월일</label>
-				<input id="birthDt" type="date" pattern="yyyy-MM-dd" class="form-control" name="birthDt"  >
+				<input id="birthDt" type="date" pattern="yyyy-MM-dd" class="form-control" name="birthDate"  >
 			</div>
 			
 			<div class="form-group">
@@ -45,9 +45,8 @@
 				<input name="listContactPoint[${status.index}].info"  class="form-control">
 			<!-- 여긴 중요한게, 객체를 만들어주는 부분이다. 제목을 넣는 부분 -->
 			</div>
-			
-			
 			</c:forEach>
+			<input type="hidden" name = "descrim" value="${memberType.partyType}">
 			<input type='hidden' name='${_csrf.parameterName}' value='${_csrf.token}'>
 			<button id="btnJoin" type="submit" class="btn btn-primary">회원가입</button>
 			</form>

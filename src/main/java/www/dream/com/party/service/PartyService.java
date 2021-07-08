@@ -1,6 +1,5 @@
 package www.dream.com.party.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import www.dream.com.framework.springSecurityAdapter.CustomUser;
 import www.dream.com.party.model.ContactPointTypeVO;
 import www.dream.com.party.model.Member;
 import www.dream.com.party.model.Party;
+import www.dream.com.party.model.partyOfAuthVO;
 import www.dream.com.party.persistence.PartyMapper;
 
 @Service // 2. @Seivce @ 생성 그리고 root-context.xml 로 가서 tag 작성 service는 root-context에 생성
@@ -33,6 +33,12 @@ public class PartyService implements UserDetailsService { // 1. 순서가 의미
 		return partyMapper.getCPTypeList();
 	}
 
+	//권한 테이블에서 사용자 조회
+	public partyOfAuthVO getMemberType() {
+		return partyMapper.getMemberType();
+	};
+
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Party loginParty = partyMapper.findPartyByUserId(username);
@@ -42,6 +48,8 @@ public class PartyService implements UserDetailsService { // 1. 순서가 의미
 	public void joinMember(Member m) {
 		partyMapper.joinMember(m);
 	}
+	
+	
 	
 	  
 }
