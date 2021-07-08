@@ -2,7 +2,6 @@ package www.dream.com.party.control;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import www.dream.com.party.model.Member;
 import www.dream.com.party.service.PartyService;
@@ -78,6 +79,22 @@ public class PartyController implements AuthenticationSuccessHandler, AccessDeni
 		partyService.joinMember(newBie);
 		return "redirect:/";
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "idCheck", produces="text/plane")
+	public String ID_Check(@RequestBody String paramData) throws ParseException {
+		//클라이언트가 보낸 ID값
+		String ID = paramData.trim();
+		int dto = partyService.IDDuplicateCheck(ID);
+		
+		if(dto > 0) {//결과 값이 있으면 아이디 존재	
+			return "-1";
+		} else {		//없으면 아이디 존재 X
+			System.out.println("null");
+			return "0";
+		}
+	}
+	
 	/**
 	 * 로그인 성공 시 각 사용자의 권한 유형에 따라 개인화된 화면을 연동 시켜주기 위한 기능을 이곳에서 개발합니다.
 	 */

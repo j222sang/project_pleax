@@ -41,6 +41,8 @@ public interface PartyMapper { // 13. persistence package에 PartyMapper interfa
 	
 	public void joinMember(@Param("party") Member member);
 	
+	public int IDDuplicateCheck(@Param("userId") String userId);
+	
 	/**	권한 처리 관련 영역	*/
 	public partyOfAuthVO getMemberType();
 }

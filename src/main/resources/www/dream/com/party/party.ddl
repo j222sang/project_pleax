@@ -97,7 +97,7 @@ create table f_contact_point (
 	reg_dt			timestamp			default sysdate not null,	--등록 시점
 	upt_dt			timestamp			default sysdate not null,
 	primary key (user_id, contact_point_type)
-
+w2
 );
 
 insert into s_contact_point(user_id, contact_point_type, info)

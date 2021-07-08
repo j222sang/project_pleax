@@ -38,6 +38,9 @@ public class PartyService implements UserDetailsService { // 1. 순서가 의미
 		return partyMapper.getMemberType();
 	};
 
+	public int IDDuplicateCheck(String userId) {
+		   return partyMapper.IDDuplicateCheck(userId);
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -116,6 +116,15 @@
 		select * from dual
 	</insert>
 	
+	<!-- public int IDDuplicateCheck(@Param("userId") String userId); -->
+	<select id="IDDuplicateCheck" resultType="int">
+	<![CDATA[
+		select count(*)
+		  from s_party
+		 where user_id = #{userId}
+	]]>
+	</select>
+	
 	<!-- ################################### 사용자 권한 관련 ##############################-->
 	<resultMap type="www.dream.com.party.model.partyOfAuthVO" id="paMap" >
 		<id property="partyType" column="party_auth"></id>

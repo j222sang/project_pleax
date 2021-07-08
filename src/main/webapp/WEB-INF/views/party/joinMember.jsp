@@ -14,13 +14,16 @@
 			<div class="form-group">
 				<label>아이디</label>
 				<input id="userId" name="userId"  placeholder="유일성있게" class="form-control" >
+				<button id="idCheck">중복체크</button>
 			<!-- 여긴 중요한게, 객체를 만들어주는 부분이다. 제목을 넣는 부분 -->
 			</div>
 			
-			<div class="form-group">
-				<label>비밀번호</label> <input id="userPwd"  name="userPwd"  class="form-control" >
+			<div id="PwdCheck" class="form-group">
+					<label>암호</label> <input id="userPwdOrgin" name="userPwd" type="password" class="form-control">
+					<label>암호 재입력</label> <input id="userPwdCheck" name="userPwd" type="password" class="form-control">
+					<p id="pwCheckMsg"></p>
 			</div>
-			
+				
 			<div class="form-group">
 				<label>닉네임</label>
 				<input name="name"  placeholder="재미있는걸로" class="form-control" >
@@ -76,6 +79,43 @@ $(document).ready(function() {
 		//회원 ID가 유일한가를 Ajax 검사하고 그렇지 못할 때는 Focus를 다시 받아야 합니다. 
 	});
 	var frmPost = $("#frmPost");
+
+	//비밀번호 일치 확인
+	$('#PwdCheck').keyup(function(){
+		if($('#userPwdOrgin').val()!=$('#userPwdCheck').val()){
+			$('#pwCheckMsg').text('');
+	  		$('#pwCheckMsg').html("<font color='#FF3333'>패스워드 확인이 불일치 합니다. </font>");
+	 	}else{
+		  	$('#pwCheckMsg').text('');
+		  	$('#pwCheckMsg').html("<font color='#70AD47'>패스워드 확인이 일치 합니다.</font>");
+	 	}
+	});
 	
+	$("#idCheck").on("click", function(){
+		id = $("#userId").val();
+		
+		$.ajax({	
+		    url: '/party/idCheck',
+		    type: 'POST',
+		    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+		    contentType : 'text/plain; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+		    data: id,
+
+		    success: function(data){
+		    	console.log(data);
+		         if(data == 0){
+		         console.log("아이디 없음");
+		         alert("사용하실 수 있는 아이디입니다.");
+		         }else{
+		         	console.log("아이디 있음");
+		         	alert("중복된 아이디가 존재합니다.");
+		         }
+		    },
+		    error: function (){        
+		    }
+		  });
+	});
 });
+
+
 </script>
